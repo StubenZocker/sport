@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#121212">
+    <meta name="description" content="Track your daily sport routines">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png">
+    <title>Sport Routine Tracker</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Main Content Area -->
+        <main class="main-content">
+            <!-- Dashboard View -->
+            <section id="dashboard" class="view active">
+                <div class="daily-progress">
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span id="progressPercentage">0.0%</span>
+                </div>
+                <div class="date-navigation">
+                    <button id="prevDay" class="nav-btn">←</button>
+                    <h2 id="currentDate">Today</h2>
+                    <button id="nextDay" class="nav-btn">→</button>
+                </div>
+                <div id="activitiesList" class="activities-list">
+                    <!-- Activities will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Analytics View -->
+            <section id="analytics" class="view">
+                <div class="view-toggle">
+                    <button id="weeklyView" class="toggle-btn active">Weekly</button>
+                    <button id="monthlyView" class="toggle-btn">Monthly</button>
+                </div>
+                <div id="analyticsCharts" class="charts-container">
+                    <!-- Charts will be dynamically inserted here -->
+                </div>
+            </section>
+
+            <!-- Add Activity View -->
+            <section id="addActivity" class="view">
+                <form id="activityForm" class="activity-form">
+                    <div class="form-group">
+                        <label>Choose Activity Type</label>
+                        <div class="emoji-selector">
+                            <button type="button" class="emoji-btn" data-unit="reps" data-icon="💪">
+                                <span class="emoji">💪</span>
+                            </button>
+                            <button type="button" class="emoji-btn" data-unit="reps" data-icon="👩">
+                                <span class="emoji">👩</span>
+                            </button>
+                            <button type="button" class="emoji-btn" data-unit="steps" data-icon="🚶">
+                                <span class="emoji">🚶</span>
+                            </button>
+                            <button type="button" class="emoji-btn" data-unit="min" data-icon="🚴">
+                                <span class="emoji">🚴</span>
+                            </button>
+                        </div>
+                        <input type="hidden" id="activityUnit" required>
+                        <input type="hidden" id="activityIcon" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityName">Activity Name</label>
+                        <input type="text" id="activityName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="activityGoal">Daily Goal</label>
+                        <div class="goal-input">
+                            <input type="number" id="activityGoal" min="0" required>
+                            <span id="goalUnit">reps</span>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-btn">Add Activity</button>
+                </form>
+            </section>
+
+            <!-- Settings View -->
+            <section id="settings" class="view">
+                <div class="settings-container">
+                    <div class="settings-group">
+                        <h3>Data Management</h3>
+                        <button id="exportData" class="action-btn">Export Data</button>
+                        <button id="importData" class="action-btn">Import Data</button>
+                        <input type="file" id="importFile" accept=".json" style="display: none;">
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="bottom-nav">
+            <button class="nav-item active" data-view="dashboard">
+                <span class="icon">📊</span>
+                <span>Dashboard</span>
+            </button>
+            <button class="nav-item" data-view="analytics">
+                <span class="icon">📈</span>
+                <span>Analytics</span>
+            </button>
+            <button class="nav-item" data-view="addActivity">
+                <span class="icon">➕</span>
+                <span>Add</span>
+            </button>
+            <button class="nav-item" data-view="settings">
+                <span class="icon">⚙️</span>
+                <span>Settings</span>
+            </button>
+        </nav>
+    </div>
+
+    <!-- Modal Template -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <div class="modal-buttons">
+                <button id="modalCancel" class="modal-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Register service worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(registration => {
+                        console.log('ServiceWorker registration successful');
+                    })
+                    .catch(err => {
+                        console.log('ServiceWorker registration failed: ', err);
+                    });
+            });
+        }
+    </script>
+    <script src="app.js"></script>
+</body>
+</html> 
